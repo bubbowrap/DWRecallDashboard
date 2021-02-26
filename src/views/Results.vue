@@ -2,7 +2,13 @@
     <div>
         <v-container>
             <v-row>
-                <v-col cols="7">
+                <v-col
+                    cols="10"
+                    offset="1"
+                    md="8"
+                    offset-md="2"
+                    class="text-center"
+                >
                     <h1>{{ resultsTitle }}</h1>
                     <p class="body-1">({{ genericName }})</p>
                     <p class="body-1">{{ manufacturerName }}</p>
@@ -10,11 +16,10 @@
                         {{ productDescription }}
                     </p>
                 </v-col>
-                <v-col cols="4" offset-md="1"> </v-col>
             </v-row>
-            <v-row align="stretch">
-                <v-col>
-                    <v-card>
+            <v-row>
+                <v-col cols="12" sm="4">
+                    <v-card outlined>
                         <v-card-title class="primary--text">
                             Product Type
                         </v-card-title>
@@ -23,8 +28,8 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-                <v-col>
-                    <v-card>
+                <v-col cols="12" sm="4">
+                    <v-card outlined>
                         <v-card-title class="primary--text">
                             Recall Date
                         </v-card-title>
@@ -33,9 +38,8 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-
-                <v-col>
-                    <v-card>
+                <v-col cols="12" sm="4">
+                    <v-card outlined>
                         <v-card-title class="primary--text"
                             >Recall Reason</v-card-title
                         >
@@ -47,36 +51,26 @@
                     </v-card>
                 </v-col>
             </v-row>
-            <!-- <v-row>
+            <v-row>
                 <v-col>
                     <h2>Related Pages</h2>
                 </v-col>
 
-                <v-col cols="12">
-                    <v-card>
-                        <v-card-title>Product Type</v-card-title>
+                <v-col
+                    cols="12"
+                    v-for="(page, index) in relatedPages"
+                    :key="index"
+                >
+                    <v-card outlined>
+                        <v-card-title
+                            ><a :href="page.url">{{
+                                page.title
+                            }}</a></v-card-title
+                        >
                         <v-card-text>Phasellus aliquam ex enim</v-card-text>
                     </v-card>
                 </v-col>
-                <v-col cols="12">
-                    <v-card>
-                        <v-card-title>Product Type</v-card-title>
-                        <v-card-text>Phasellus aliquam ex enim</v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col cols="12">
-                    <v-card>
-                        <v-card-title>Product Type</v-card-title>
-                        <v-card-text>Phasellus aliquam ex enim</v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col cols="12">
-                    <v-card>
-                        <v-card-title>Product Type</v-card-title>
-                        <v-card-text>Phasellus aliquam ex enim</v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row> -->
+            </v-row>
         </v-container>
     </div>
 </template>
@@ -93,6 +87,7 @@ export default {
             productType: '',
             recallDate: '',
             recallReason: '',
+            relatedPages: [],
         }
     },
     computed: {
@@ -122,6 +117,14 @@ export default {
                 this.productType = recallData.openfda.product_type.join(', ')
                 this.recallDate = recallData.recall_initiation_date
                 this.recallReason = recallData.reason_for_recall
+            })
+            .catch(err => console.log(err))
+        axios
+            .get(
+                `http://jsamuel:8040/wp-json/wp/v2/search?search=${this.$route.params.result}`
+            )
+            .then(res => {
+                this.relatedPages = [...res.data]
             })
             .catch(err => console.log(err))
     },

@@ -31,12 +31,12 @@ h1 {
 }
 
 .v-main {
-    flex: 0;
+    flex: 0 !important;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.6s ease;
+    transition: opacity 0.3s ease;
 }
 .fade-enter,
 .fade-leave-active {

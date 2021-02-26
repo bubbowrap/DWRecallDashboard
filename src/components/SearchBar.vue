@@ -1,7 +1,7 @@
 <template>
     <v-form @submit.prevent>
         <v-row>
-            <v-col cols="12" sm="9" md="10">
+            <v-col cols="12" :sm="full ? 12 : 9" :md="full ? 12 : 10">
                 <v-text-field
                     v-model="searchTerm"
                     outlined
@@ -11,7 +11,7 @@
                     required
                 ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="3" md="2">
+            <v-col cols="12" :sm="full ? 12 : 3" :md="full ? 12 : 2">
                 <v-btn block depressed x-large color="primary" @click="search"
                     >Search</v-btn
                 >
@@ -27,6 +27,7 @@ export default {
             searchTerm: '',
         }
     },
+    props: { full: Boolean },
     methods: {
         search() {
             //change route to results page
