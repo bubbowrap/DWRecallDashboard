@@ -103,7 +103,7 @@ export default {
       .catch(err => console.log(err))
     axios
       .get(
-        `http://jsamuel:8041/wp-json/wp/v2/search?search=${this.$route.params.result}` // grab wp pages
+        `http://jsamuel:8041/wp-json/wp/v2/search?search=${this.$route.params.result}` // grab wp pages; need to set 'show_in_rest' => true for torts in post-types.php
       )
       .then(res => {
         this.relatedPages = [...res.data].sort(
